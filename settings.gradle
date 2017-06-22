@@ -1,1 +1,1 @@
-include ':app', ':youtube-auth'
+include ':app'

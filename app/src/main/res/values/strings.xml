@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Youtube Sign In</string>
+
+    <string name="button_sign_in">Sign In</string>
+</resources>

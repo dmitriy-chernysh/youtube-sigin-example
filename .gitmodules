@@ -1,3 +1,3 @@
 [submodule "youtube-auth"]
-        path = youtube-auth
-        url = https://github.com/mobile-dev-pro/youtube-auth.git
+	path = youtube-auth
+	url = git@github.com:mobile-dev-pro/youtube-auth.git

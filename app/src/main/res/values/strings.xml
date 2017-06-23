@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Youtube Sign In</string>
+    <string name="app_name">Youtube Sign-In</string>
+    <string name="app_name_youtube_auth">Sign-In to Youtube</string>
 
     <string name="button_sign_in">Sign In</string>
+
 </resources>

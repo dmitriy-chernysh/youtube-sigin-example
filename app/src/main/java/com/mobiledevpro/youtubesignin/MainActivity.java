@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     if (data != null && data.getExtras().containsKey(YoutubeAuthActivity.KEY_RESULT_TOKEN)) {
                         mToken = data.getStringExtra(YoutubeAuthActivity.KEY_RESULT_TOKEN);
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
     void onSignIn(Button btn) {
         Intent intent = new Intent(this, YoutubeAuthActivity.class);
         intent.putExtra(YoutubeAuthActivity.KEY_APP_CLIENT_ID, "1066264343435-tfqle85fjni6po0saj26fdpheufqdrc3.apps.googleusercontent.com");
+        intent.putExtra(YoutubeAuthActivity.KEY_APP_THEME_RES_ID, R.style.AppTheme_NoActionBar);
+        intent.putExtra(YoutubeAuthActivity.KEY_APPBAR_TITLE_RES_ID, R.string.app_name_youtube_auth);
+        intent.putExtra(YoutubeAuthActivity.KEY_APPBAR_HOME_ICON_RES_ID, R.drawable.ic_close_24dp);
         startActivityForResult(intent, YoutubeAuthActivity.REQUEST_CODE);
     }
 

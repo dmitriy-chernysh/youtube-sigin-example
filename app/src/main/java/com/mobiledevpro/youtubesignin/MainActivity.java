@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
+                    String errMessage = data != null ? data.getStringExtra(YoutubeAuthActivity.KEY_RESULT_ERROR) : "Cancelled";
+                    Toast.makeText(this, errMessage, Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

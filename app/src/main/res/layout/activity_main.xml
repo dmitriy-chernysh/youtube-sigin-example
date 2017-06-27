@@ -7,12 +7,37 @@
     android:padding="16dp"
     tools:context="com.mobiledevpro.youtubesignin.MainActivity">
 
-    <Button
-        android:id="@+id/btn_sign_in"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/button_sign_in"/>
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/btn_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_sign_in"
+            style="@style/AppTheme.Button.SignIn"/>
+
+        <Button
+            android:id="@+id/btn_sign_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_sign_out"
+            android:visibility="gone"
+            style="@style/AppTheme.Button.SignIn"
+            />
+
+        <Button
+            android:id="@+id/btn_refresh_token"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_refresh_token"
+            style="@style/AppTheme.Button.Refresh"/>
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/tv_token"

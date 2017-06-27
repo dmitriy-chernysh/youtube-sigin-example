@@ -3,5 +3,7 @@
     <string name="app_name_youtube_auth">Sign-In to Youtube</string>
 
     <string name="button_sign_in">Sign In</string>
+    <string name="button_sign_out">Sign Out</string>
+    <string name="button_refresh_token">Refresh token</string>
 
 </resources>

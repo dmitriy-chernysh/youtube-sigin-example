@@ -10,8 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mobiledevpro.youtubeauth.YoutubeAuthActivity;
-import com.mobiledevpro.youtubeauth.YoutubeTokenHelper;
+import com.mobiledevpro.youtubeauth.YoutubeAuthManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        String refreshToken = YoutubeTokenHelper.getInstance(CLIENT_ID, CLIENT_SECRET).getRefreshToken(getApplicationContext());
+        String refreshToken = YoutubeAuthManager.getInstance(CLIENT_ID, CLIENT_SECRET).getRefreshToken(getApplicationContext());
 
         if (mBtnSignIn != null) {
             mBtnSignIn.setVisibility(TextUtils.isEmpty(refreshToken) ? View.VISIBLE : View.GONE);
@@ -72,14 +71,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case YoutubeAuthActivity.REQUEST_CODE:
+            case YoutubeAuthManager.REQUEST_CODE_SIGN_IN:
                 if (resultCode == Activity.RESULT_OK) {
-                    if (data != null && data.getExtras().containsKey(YoutubeAuthActivity.KEY_RESULT_TOKEN)) {
-                        mToken = data.getStringExtra(YoutubeAuthActivity.KEY_RESULT_TOKEN);
+                    if (data != null && data.getExtras().containsKey(YoutubeAuthManager.KEY_SIGN_IN_RESULT_TOKEN)) {
+                        mToken = data.getStringExtra(YoutubeAuthManager.KEY_SIGN_IN_RESULT_TOKEN);
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    String errMessage = data != null ? data.getStringExtra(YoutubeAuthActivity.KEY_RESULT_ERROR) : "Cancelled";
+                    String errMessage = data != null ? data.getStringExtra(YoutubeAuthManager.KEY_SIGN_IN_RESULT_ERROR) : "Cancelled";
                     Toast.makeText(this, errMessage, Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -91,20 +90,19 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_sign_in)
     void onSignIn(Button btn) {
-        Intent intent = new Intent(this, YoutubeAuthActivity.class);
-        intent.putExtra(YoutubeAuthActivity.KEY_APP_CLIENT_ID, CLIENT_ID);
-        intent.putExtra(YoutubeAuthActivity.KEY_APP_CLIENT_SECRET, CLIENT_SECRET);
-        intent.putExtra(YoutubeAuthActivity.KEY_APP_THEME_RES_ID, R.style.AppTheme_NoActionBar);
-        intent.putExtra(YoutubeAuthActivity.KEY_APPBAR_TITLE_RES_ID, R.string.app_name_youtube_auth);
-        intent.putExtra(YoutubeAuthActivity.KEY_APPBAR_HOME_ICON_RES_ID, R.drawable.ic_close_24dp);
-        startActivityForResult(intent, YoutubeAuthActivity.REQUEST_CODE);
+        YoutubeAuthManager.getInstance(CLIENT_ID, CLIENT_SECRET).startSignIn(
+                this,
+                R.style.AppTheme_NoActionBar,
+                R.string.app_name_youtube_auth,
+                R.drawable.ic_close_24dp
+        );
     }
 
     @OnClick(R.id.btn_sign_out)
     void onSignOut(Button btn) {
-        YoutubeTokenHelper.getInstance(CLIENT_ID, CLIENT_SECRET).revokeToken(
+        YoutubeAuthManager.getInstance(CLIENT_ID, CLIENT_SECRET).signOut(
                 getApplicationContext(),
-                new YoutubeTokenHelper.ICallbacks() {
+                new YoutubeAuthManager.ICallbacks() {
                     @Override
                     public void onSuccess(String accessToken) {
                         if (mTvToken != null) {
@@ -129,10 +127,10 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_refresh_token)
     void onRefreshToken(Button btn) {
-        YoutubeTokenHelper.getInstance(CLIENT_ID, CLIENT_SECRET).checkAndRefreshAccessTokenAsync(
+        YoutubeAuthManager.getInstance(CLIENT_ID, CLIENT_SECRET).checkAndRefreshAccessTokenAsync(
                 getApplicationContext(),
                 mTvToken.getText().toString(),
-                new YoutubeTokenHelper.ICallbacks() {
+                new YoutubeAuthManager.ICallbacks() {
                     @Override
                     public void onSuccess(String accessToken) {
                         String oldToken = mTvToken.getText().toString();
